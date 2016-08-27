@@ -1,0 +1,4 @@
+*  可以先把项目存储在crm-project同一级目录,把目录创建出来后,再把项目导入到crm-project中,因为crm-project中已经存在
+	pom.xml,不能在crm-project目录下创建,另外一种是不用把子项目导入到crm-project目录中,而是在pom.xml中配置modules
+	时路径往前跳一级,这样就可以找到了(但是这种方式提交到github时  是否存在问题，还没测试过 )
+	
