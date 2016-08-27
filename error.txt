@@ -1,0 +1,3 @@
+* 创建java工程报错
+Could not resolve archetype org.apache.maven.archetypes:maven-archetype-quickstart:RELEASE from any of the configured repositories.
+解决:在windows/properties/maven中设置maven

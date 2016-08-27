@@ -1,0 +1,2 @@
+支持logg4j日志输出
+支持在controller中自动将map转为json对象返回给请求页面

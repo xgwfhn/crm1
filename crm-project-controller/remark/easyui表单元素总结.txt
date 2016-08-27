@@ -1,0 +1,55 @@
+http://www.wfuyu.com/htmlcss/22084.html
+EasyUI表单元素总结
+来源：程序员人生   发布时间：2015-02-02 08:42:12 阅读次数：1998次
+1:easyui-textbox 文本框
+定义：
+<input id="<span style="font-size:18px;">inputName</span>" class="easyui-textbox" type="text" />
+取值： $('#inputName').textbox('getText');
+赋值： $('#inputName').textbox('setText', ‘liang’);
+
+
+2：easyui-combobox 下拉框
+定义：
+<input id="<pre name="code" class="javascript">inputType
+" class="easyui-combobox" data-options="required:true, panelHeight:60" />
+初始化
+$('#inputType').combobox( { data : getDictionaryDatas().Type, valueField : 'value', textField : 'label', missingMessage : messageCreator( ValidateMessage.msg_request_field, '类型') });
+
+取值：$('#inputType').combobox('getValue');
+赋值：$('#inputType').combobox('setValue', 1);
+
+
+3：easyui-numberspinner 数字
+定义：
+<input id="ss" class="easyui-numberspinner" style="width:80px;" required="required" data-options="min:10,max:100,editable:false">
+
+取值：
+var v = $('#ss').numberspinner('getValue');
+赋值：
+$('#ss').numberspinner('setValue', 8234725);
+
+4：datebox日期
+定义：
+
+<input type="text" name="nn" id="nn" class="easyui-datebox" data-options="formatter:myDate.InitDateBox.formatter,parser:myDate.InitDateBox. parser" />
+赋值：
+
+$("#SC001_CERTIFICATEVALID").datebox('setValue', '2014⑼⑴2');
+取值：
+
+$('#nn').datebox('getValue'),
+5：单选框
+定义
+
+<td height="30" colspan="5">
+                    <input type="radio" name="APPLYDEPTTYPE" value="事业法人" checked="checked" />事业法人
+                    <input type="radio" name="APPLYDEPTTYPE" value="企业法人" />企业法人
+                    <input type="radio" name="APPLYDEPTTYPE" value="社团法人" />社团法人
+                    <input type="radio" name="APPLYDEPTTYPE" value="其他" />其他
+                </td>
+赋值：
+
+var str = result.APPLYDEPTTYPE; $("[value='" + str + "']").attr("checked", true);
+取值：
+
+$('input[name="APPLYDEPTTYPE"]:checked').val()

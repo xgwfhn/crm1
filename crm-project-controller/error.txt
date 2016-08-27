@@ -1,0 +1,78 @@
+* java文件没有自动校验
+* 修改包名后   有时并不能在target重新生成   需要手工删掉和刷新
+* [ERROR] \test\code\springMvc\crm\src\main\java\com\demo\utils\SimpleLunarCalendar.java:[255,2] 需要为 class、interface 或 enum
+  解决  complier插件默认只支持编译Java 1.4，因此需要加上支持高版本jre的配置  在pom.xml中配置
+* springMVC No mapping found for HTTP request with URI (2012-02-03 09:21:13)转载▼
+	No mapping found for HTTP request with URI
+	出现这个问题的原因是在web.xml中配置错了，如：
+		<servlet>
+			 <servlet-name>springMVCDispatcherServlet</servlet-name>
+			 <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			 <param-name>contextConfigLocation</param-name>
+			 <param-value>/WEB-INF/springMVC-servlet.xml</param-value>
+		</init-param>
+			<load-on-startup>1</load-on-startup>
+		</servlet>
+		<servlet-mapping>
+			 <servlet-name>springMVCDispatcherServlet</servlet-name>
+			 <url-pattern>/*</url-pattern>
+		</servlet-mapping>
+	当你在control中返回一个路径的时候，它又把路径（/view/index.jsp）当作一个请求被dispatcherServlet所拦截。所以会抛出异常，解决的办法有两个：
+	第一即使让dispatcherServlet的拦截加上后缀如：*.do;
+	这样以jsp后缀的就不会别拦截了。
+	第二个方法是在spring-servlet.xml中加入：
+	<mvc:default-servlet-handler/> 该标签 目前测试不管用 原因未知
+
+* controller的访问路径级别会引起页面上文件路径问题  一般定义为2级  即类名+方法
+
+*  用了springmvc为何JS，CSS等文件就是访问不到
+*  为什么web.xml中<url-pattern>*.do</url-pattern>配置*.do就可以找到页面,配置成/  就报
+   No mapping found for HTTP request with URI [/product/pages/back/index1.html] in DispatcherServlet with name 'dispatcherServlet'
+   
+   
+ 在eclipse使用git,选择team->remote->push->提交项目到github时
+ 报 Can't connect to any repository: https://github.com/zhouyix/OfferPractice.git
+ (https://github.com/zhouyix/OfferPractice.git: not authorized)
+ 解决:general------security--------secure storage------contents
+       选中你的账号密码删除就行了,这样提交后会让你提用户名和密码   
+       如果把本地的代码中的git文件夹删除后,如果需要重新生成,需要先把eclipse关闭,然后再打开刷新项目,即可按照原来的将项目提交到github步骤生成   
+提交项目到github  要不要提交classpath  project那些文件呢
+测试证明 提交项目到github时 可以不用提交classpath,.project那些文件
+
+*提交本地项目到github步骤
+   提节前要先在github中创建仓库,在本地的eclispe中生成key，把key添加到github中,这样提交项目时 github才能进行安全验证
+   参考http://www.open-open.com/lib/view/open1406105786710.html	 
+
+*maven dependencieslibrarys中丢失的jar  怎么删除
+      在pom.xml中 dependencies 中删除
+ pom.xml视图介绍 
+    Overview:显示maven项目的一些基本信息. 
+	Dependencies:添加jar包的页面,很重要! 
+	Plugins:添加maven插件的页面.比如tomcat-maven-plugin等. 
+	Reporting:从没用过,无视~ 
+	Dependency Hierarchy:用于显示jar包的依赖关系.没事的时候可以看看jar包的依赖关系. 
+	Effective POM:显示maven的编译路径,plugin之类的.也可以无视. 
+	pom.xml:导入jar包的信息,可以在其中进行修改.重要    
+
+Eclipse中Maven工程缺少Maven Dependencies
+	http://chenzhou123520.iteye.com/blog/1811340
+	如果可以编译通过,但是还是提示有误,可以重启eclipse
+
+* 想重新下jar包,可以重新install下
+
+* 关联源码,设置断点,debug调试的时候  要关联源码后要重启eclipse才能生效
+
+* maven工程下  修改方法里的内容  不生效 
+      必须要在Project Explorer视图中打开才能生效?
+      
+*文件上传错误
+java.lang.ClassCastException: org.eclipse.jetty.server.Request cannot be cast to org.springframework.web.multipart.MultipartHttpServletRequest
+解决:在springmvc.xml中配置
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="UTF-8">
+        <property name="maxUploadSize" value="1024000000"></property>
+</bean>
+
+* 关于html中不能引用js变量  或使用el表示获取后台设置的变量  的解决      
+      
+   

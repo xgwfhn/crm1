@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<!-- 
+ easyui 表单提交  不能通过xxx.do?xx=xx 这样的方式传递,必须把值赋值到表单的元素中(如设值到一个隐藏域中),当提交提交时 easyui会自动把表单中的元素进行序列化,后台根据request.getParater()就可以获取了
+ -->
+<head>
+	<meta charset="UTF-8">
+	<title>多表单提交</title>
+	<link rel="stylesheet" type="text/css" href="../style/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../style/easyui/themes/icon.css">
+    <script type="text/javascript" src="../script/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="../script/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../script/formsSubmit.js"></script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'west',split:true,title:'West'" style="width:200px;padding:10px;">  
+		<!-- 折叠面板  -->  
+	    <div class="easyui-accordion" data-options="fit:true" >  <!-- data-options="fit:true" 自动适应大小  -->  
+	        <!-- 每个div都是一个面板 -->   
+	        <div data-options="title:'你好'" >宇宙</div>  
+	        <div data-options="title:'诸国'" >宇宙</div>   
+	        <div data-options="title:'遗迹'" >宇宙</div>   
+	    </div>  
+	</div>
+	<div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region11</div>
+	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">south region</div>
+	<div data-options="region:'center',title:'Center'">
+		<table id="test"></table>
+		<!-- 添加对话框 ,页面初始化时关闭-->
+		<div id="dlg" class="easyui-dialog" title="产品添加" style="width:730px;height:450px;padding:10px">
+			<form id="productAddForm" method="post">
+				<input type="hidden" id="dataJson" name="dataJson"/>
+				<div class="easyui-tabs" style="width:700px;height:350px">
+				   	    <div title="新增" style="padding:10px;">
+							<div style="margin-bottom:20px">
+								<input class="easyui-textbox" id="productName" name="name" style="width:50%" label="产品名称:" data-options="required:true" missingMessage="名称不能为空"  />
+							</div>
+							<div style="margin-bottom:20px">
+								<input class="easyui-textbox" name="email" style="width:50%" label="产品分类:">
+							</div>
+							<div style="margin-bottom:20px">
+								<input class="easyui-textbox" name="subject" style="width:50%" data-options="required:true,validType:'numberId'" label="规格/型号:" missingMessage="规格/型号不能为空" />
+							</div>
+							<div style="margin-bottom:20px">
+								<input  class="easyui-numberspinner" name="weight" style="width:50%;" required="required"  value="0" data-options="min:10,max:100,editable:false" label="重量:"/>
+								<select class="easyui-combobox" name="language" label="单位:" style="width:20%;">
+									<option value="ar">斤</option>
+									<option value="bg">克</option>
+									<option value="ca">吨</option>
+								</select>
+							</div>
+							<div style="margin-bottom:20px">
+								是否执行特价:
+								<input type="radio" name="adminFlag" value="0" />否
+								<input type="radio" name="adminFlag" value="1" checked="checked"/>是
+							</div>
+							<div style="margin-bottom:20px">
+								<select class="easyui-combobox" name="language" label="语&nbsp;言:" style="width:50%">
+									<option value="ar">Arabic</option>
+									<option value="bg">Bulgarian</option>
+									<option value="ca">Catalan</option>
+									<option value="zh-cht">Chinese Traditional</option>
+									<option value="it">Italian</option>
+									<option value="ja">Japanese</option>
+								</select>
+							</div>
+							<div style="margin-bottom:20px">
+								<input class="easyui-textbox" name="mobile" style="width:50%" label="号&nbsp;码:"/>
+							</div>
+						</div>
+						<div title="My Documents" style="padding:10px">
+							<ul class="easyui-tree" data-options="url:'tree_data1.json',method:'get',animate:true"></ul>
+						</div>
+						<div title="特供价格" data-options="iconCls:'icon-help',closable:true" style="padding:10px">
+							<table id="dg" class="easyui-datagrid"  style="width:700px;height:auto"
+							data-options="
+							iconCls: 'icon-edit',
+							singleSelect: true,
+							toolbar: '#tb',							
+							method: 'get',
+							onClickCell: onClickCell,
+							onEndEdit: onEndEdit">
+								<thead>
+									<tr>
+										<th data-options="field:'itemid',width:80,editor:'textbox'" >Item ID</th>
+										<th data-options="field:'productid',width:100,
+												formatter:function(value,row){
+													return row.productname;
+												},
+												editor:{
+													type:'combobox',
+													options:{
+														valueField:'productid',
+														textField:'productname',
+														method:'get',
+														url:'../script/data/products.json',
+														required:true
+													}
+												}" name="productName">Product
+										</th>
+										<th data-options="field:'listprice',width:80,align:'right',editor:{type:'numberbox',options:{precision:1}}">List Price</th>
+										<th data-options="field:'unitcost',width:80,align:'right',editor:'numberbox'">Unit Cost</th>
+										<th data-options="field:'attr1',width:250,editor:'textbox'">Attribute</th>
+										<th data-options="field:'status',width:60,align:'center',editor:{type:'checkbox',options:{on:'P',off:''}}">Status</th>
+									</tr>
+								</thead>
+							</table>
+							<div id="tb" style="height:auto">
+								<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="append()">Append</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="removeit()">Remove</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept()">Accept</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">Reject</a>
+								<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="getChanges()">GetChanges</a>
+							</div>
+						</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

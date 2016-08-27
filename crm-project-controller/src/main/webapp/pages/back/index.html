@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<!-- 
+             页面中引用easui的表单后,使用jquery.validate.js就不再生效了,原因可能是jquery.easyui.min.js做了修改,如果要做表单验证,只能使用
+	easui的表单验证机制,如果不能适用  可以扩展easui表单的验证机制  来编写自己的验证 
+	此页面为easyui表单验证
+	判断名称是否存在(鼠标离开焦点时)
+	表单重复提交处理(提交成功后弹出提示阻止表单重复提交)
+	怎么修改表单提示语
+	多条记录提交(如果表格记录)后台怎么获取
+	设置表单不验证:<form id="productAddForm" method="post" data-options="novalidate:true">
+	easyui input 中添加onclick事件失效,原因easyui是把你自己写的input隐藏了,自己生成一个,解决思路是找到它生成的input  添加事件即可 
+	判断规格/型号是否为8位编码并是否已存在
+	后台将map转换json字符串，需要在spirngmvc.xml配置map转json的spring转换器 ，同时使用jackson-mapper-lgpl，jackson-core  俩个jar包        
+ -->
+<head>
+	<meta charset="UTF-8">
+	<title>Full Layout - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="../style/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="../style/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="../demo.css">
+    <script type="text/javascript" src="../script/easyui/jquery.min.js"></script>
+	<script type="text/javascript" src="../script/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="../script/index.js"></script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'west',split:true,title:'West'" style="width:200px;padding:10px;">  
+		<!-- 折叠面板  -->  
+	    <div class="easyui-accordion" data-options="fit:true" >  <!-- data-options="fit:true" 自动适应大小  -->  
+	        <!-- 每个div都是一个面板 -->   
+	        <div data-options="title:'你好'" >宇宙</div>  
+	        <div data-options="title:'诸国'" >宇宙</div>   
+	        <div data-options="title:'遗迹'" >宇宙</div>   
+	    </div>  
+	</div>
+	<div data-options="region:'east',split:true,collapsed:true,title:'East'" style="width:100px;padding:10px;">east region11</div>
+	<div data-options="region:'south',border:false" style="height:50px;background:#A9FACD;padding:10px;">south region</div>
+	<div data-options="region:'center',title:'Center'">
+	 <table id="test"></table>
+	 <!-- 添加对话框 ,页面初始化时关闭-->
+	 <div id="dlg" class="easyui-dialog" title="产品添加" style="width:400px;height:420px;padding:10px">
+		<form id="productAddForm" method="post">
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" id="productName" name="name" style="width:90%" label="产品名称:" data-options="required:true" missingMessage="名称不能为空"  />
+			</div>
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" name="email" style="width:90%" label="产品分类:">
+			</div>
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" name="subject" style="width:90%" data-options="required:true,validType:'numberId'" label="规格/型号:" missingMessage="规格/型号不能为空" />
+			</div>
+			<div style="margin-bottom:20px">
+				<input  class="easyui-numberspinner" name="weight" style="width:50%;" required="required"  value="0" data-options="min:10,max:100,editable:false" label="重量:"/>
+				<select class="easyui-combobox" name="language" label="单位:" style="width:40%;">
+					<option value="ar">斤</option>
+					<option value="bg">克</option>
+					<option value="ca">吨</option>
+				</select>
+			</div>
+			<div style="margin-bottom:20px">
+				是否执行特价:
+				<input type="radio" name="adminFlag" value="0" />否
+				<input type="radio" name="adminFlag" value="1" checked="checked"/>是
+			</div>
+			<div style="margin-bottom:20px">
+				<select class="easyui-combobox" name="language" label="语&nbsp;言:" style="width:90%">
+					<option value="ar">Arabic</option>
+					<option value="bg">Bulgarian</option>
+					<option value="ca">Catalan</option>
+					<option value="zh-cht">Chinese Traditional</option>
+					<option value="it">Italian</option>
+					<option value="ja">Japanese</option>
+				</select>
+			</div>
+			<div style="margin-bottom:20px">
+				<input class="easyui-textbox" name="mobile" style="width:90%" label="号&nbsp;码:"/>
+			</div>
+		</form>
+	</div>
+	</div>
+</body>
+</html>
