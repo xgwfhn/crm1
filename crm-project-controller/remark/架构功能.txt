@@ -1,2 +1,5 @@
 支持logg4j日志输出
 支持在controller中自动将map转为json对象返回给请求页面
+参考:http://blog.csdn.net/y3wegy/article/details/7821517
+	http://www.cnblogs.com/tqsummer/archive/2011/01/10/1932063.html
+支持日记按日期 到txt文件中

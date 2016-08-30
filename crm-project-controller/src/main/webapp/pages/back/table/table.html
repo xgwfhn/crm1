@@ -1,6 +1,41 @@
 <!-- 
 	bootstrap  响应式布局   随着浏览器的大小  自动跳转布局格式
 	bootstrap 可以兼容pc ipad  移动端
+	一般图标 可以用 <i 标签或<span  标签  来显示
+	提供分页功能
+	ajax删除   不刷新  停留在当前页  (始终保持每页显示的记录数)
+	ajax新增 /修改 局部刷新表格数据
+	将分页组件居中
+	
+	css设置
+	设置 表格行间隔之间  斑马条纹样式 table-striped
+	设置表格边框 table-bordered
+	每一行对鼠标悬停状态作出响应  table-hover
+	紧缩表格  table-condensed
+	将表格设置为响应式 class="table-responsive"
+	
+	分页插件 
+	下载地址:https://github.com/lyonlai/bootstrap-paginator
+	
+	bootstrap表格插件:
+	https://www.datatables.net/blog/2012-02-01
+	datagrid:http://www.pontikis.net/labs/bs_grid/
+	
+	http://my.oschina.net/shunshun/blog/204587
+	bootstrap 树插件
+	https://github.com/zgs225/easy-tree   注意里面文件引入不对  需要修改
+	treevew:https://github.com/jonmiles/bootstrap-treeview  (例子打开没有看到效果)
+	
+	验证插件:
+	http://reactiveraven.github.io/jqBootstrapValidation/
+	
+	
+	
+	
+	bootstrap插件:
+	http://www.missyuan.net/school/other_2014/other_16472.html
+	http://www.oschina.net/news/56950/jquery-bootstrap-plugins-for-your-next-projects
+	http://www.oschina.net/translate/20-best-jquery-bootstrap-plugins-for-developers
  -->
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -9,11 +44,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>首页</title>
+    <title>表格</title>
 
     <!--1 Bootstrap css 引入 -->
-     
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+     <!--font-awesome.css 下载地址 http://www.bootcdn.cn/font-awesome/ 然后需要下载其图标  放到font目录中   再重新编译   注意该图标在font目录下   上传组件的图标在fonts下-->
+    <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/font-awesome.css" rel="stylesheet" type="text/css" />
     <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/bootstrap.css" rel="stylesheet">
     <!-- 首先要下载  bootstrap源码 版     dashboard.css 在bootstrap-3.3.5\docs\examples\dashboard    -->
      <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/dashboard.css" rel="stylesheet">
@@ -23,7 +58,15 @@
       <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+    <style type="text/css">
+    	.table > tbody > tr > td{
+    		 vertical-align:middle;   /* 设置表格数据垂直居中*/
+    	}
+    	
+    	.table{
+    		margin-bottom:-20px;  /* 设置表格底线和分页组件的边距*/
+    	}
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -236,6 +279,15 @@
                
               </tbody>
             </table>
+            <ul class="pagination pagination-lg">
+				<li><a href="#">&laquo;</a></li>
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+				<li><a href="#">&raquo;</a></li>
+			</ul>
           </div>
         </div>
       </div>
