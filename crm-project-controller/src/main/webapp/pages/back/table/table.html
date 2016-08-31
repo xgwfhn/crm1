@@ -1,4 +1,5 @@
 <!-- 
+	还需部署到云服务器中  然后用移动端访问看下样式
 	bootstrap  响应式布局   随着浏览器的大小  自动跳转布局格式
 	bootstrap 可以兼容pc ipad  移动端
 	一般图标 可以用 <i 标签或<span  标签  来显示
@@ -12,12 +13,18 @@
 	设置表格边框 table-bordered
 	每一行对鼠标悬停状态作出响应  table-hover
 	紧缩表格  table-condensed
-	将表格设置为响应式 class="table-responsive"
-	
+	将表格设置为响应式
+	<div class="table-responsive">
+  		<table class="table">
+    		...
+  		</table>
+	</div>
+		
 	分页插件 
 	下载地址:https://github.com/lyonlai/bootstrap-paginator
 	
 	bootstrap表格插件:
+	可编辑表格插件:https://github.com/mindmup/editable-table(css和js都是远程连接的不可访问   需要下载到本地)
 	https://www.datatables.net/blog/2012-02-01
 	datagrid:http://www.pontikis.net/labs/bs_grid/
 	
@@ -44,10 +51,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>表格</title>
-
-    <!--1 Bootstrap css 引入 -->
-     <!--font-awesome.css 下载地址 http://www.bootcdn.cn/font-awesome/ 然后需要下载其图标  放到font目录中   再重新编译   注意该图标在font目录下   上传组件的图标在fonts下-->
+    <title>bootstrap-paginator分页</title>
+	
+    <!--分页插件 css 引入 -->
+    <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/bootstrap-combined.min.css" rel="stylesheet" type="text/css" />
+    <!--font-awesome.css 下载地址 http://www.bootcdn.cn/font-awesome/ 然后需要下载其图标  放到font目录中   再重新编译   注意该图标在font目录下   上传组件的图标在fonts下-->
     <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/font-awesome.css" rel="stylesheet" type="text/css" />
     <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/bootstrap.css" rel="stylesheet">
     <!-- 首先要下载  bootstrap源码 版     dashboard.css 在bootstrap-3.3.5\docs\examples\dashboard    -->
@@ -67,6 +75,25 @@
     		margin-bottom:-20px;  /* 设置表格底线和分页组件的边距*/
     	}
     </style>
+    
+    <!-- js 放在这里  是因为如果放到前面  在引入时会比较慢,可以考虑放置到末尾 -->
+    <!--2 jQuery js库必须在  bootstrap.js之前-->
+    <script src="http://127.0.0.1:8080/crm-project-controller/script/easyui/jquery.min.js"></script>
+    <!-- 3 Include all compiled plugins (below), or include individual files as needed -->
+    <script src="http://127.0.0.1:8080/crm-project-controller/script/bootstrap/bootstrap.js"></script>
+    <!--分页插件 js 引入 -->
+    <script src="http://127.0.0.1:8080/crm-project-controller/script/bootstrap/bootstrap-paginator.js"></script>
+    <script type='text/javascript'>
+        
+		$(function(){
+			var options = {
+		            currentPage: 3,
+		            totalPages: 10
+		    };
+			
+        	$('#example').bootstrapPaginator(options);
+		});
+    </script>
   </head>
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -119,7 +146,7 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
           <h2 class="sub-header">Section title</h2>
-          <div class="table-responsive"><!-- 设置该表格为响应式 -->
+          <div class="table-responsive">
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -278,24 +305,12 @@
                 </tr>
                
               </tbody>
-            </table>
-            <ul class="pagination pagination-lg">
-				<li><a href="#">&laquo;</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#">&raquo;</a></li>
-			</ul>
+            </table>     
+            <div id="example"></div>       
           </div>
         </div>
       </div>
     </div>
-    <!-- js 放在这里  是因为如果放到前面  在引入时会比较慢 -->
-    <!--2 jQuery js库必须在  bootstrap.js之前-->
-    <script src="http://127.0.0.1:8080/crm-project-controller/script/easyui/jquery.min.js"></script>
-    <!-- 3 Include all compiled plugins (below), or include individual files as needed -->
-    <script src="http://127.0.0.1:8080/crm-project-controller/script/bootstrap/bootstrap.js"></script>
+    
   </body>
 </html>
