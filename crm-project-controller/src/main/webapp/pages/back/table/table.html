@@ -19,10 +19,13 @@
     		...
   		</table>
 	</div>
+	可设置分页组件显示的规格大小及是否居中等(其中居中 的样式 会和bootstrap.css的冲突),解决  找到bootstrap-combined.min.css和bootstrap.css冲突的样式,在本地覆盖即可.  备注bootstrap.css中也有分页的样式
 		
 	分页插件 
 	下载地址:https://github.com/lyonlai/bootstrap-paginator
-	
+	参考:http://blog.fens.me/nodejs-bootstrap-paginator/
+		http://blog.csdn.net/zxw394/article/details/30067827
+		
 	bootstrap表格插件:
 	可编辑表格插件:https://github.com/mindmup/editable-table(css和js都是远程连接的不可访问   需要下载到本地)
 	https://www.datatables.net/blog/2012-02-01
@@ -53,11 +56,12 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <title>bootstrap-paginator分页</title>
 	
-    <!--分页插件 css 引入 -->
-    <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/bootstrap-combined.min.css" rel="stylesheet" type="text/css" />
+    
     <!--font-awesome.css 下载地址 http://www.bootcdn.cn/font-awesome/ 然后需要下载其图标  放到font目录中   再重新编译   注意该图标在font目录下   上传组件的图标在fonts下-->
     <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/font-awesome.css" rel="stylesheet" type="text/css" />
     <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/bootstrap.css" rel="stylesheet">
+    <!--分页插件 css 引入 -->
+    <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/bootstrap-combined.min.css" rel="stylesheet" type="text/css" />
     <!-- 首先要下载  bootstrap源码 版     dashboard.css 在bootstrap-3.3.5\docs\examples\dashboard    -->
      <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/dashboard.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -74,6 +78,9 @@
     	.table{
     		margin-bottom:-20px;  /* 设置表格底线和分页组件的边距*/
     	}
+    	.pagination {
+		    display:block; /* 因为分页插件对齐样式和bootstrap.css的冲突了(如设置居中不生效),此处需要覆盖.备注bootstrap.css中也有分页的样式*/
+		}
     </style>
     
     <!-- js 放在这里  是因为如果放到前面  在引入时会比较慢,可以考虑放置到末尾 -->
@@ -86,16 +93,87 @@
     <script type='text/javascript'>
         
 		$(function(){
-			var options = {
-		            currentPage: 3,
-		            totalPages: 10
-		    };
+			 var options = {
+		                currentPage: 3,//当前页
+		                totalPages: 11,//总页数
+		                size:'normal',//控件显示大小  large,normal, small, mini
+		                alignment:'center',//控件对齐方式
+		                numberOfPages:8,//设置控件显示的页码数,如1-8
+		                itemTexts: function (type, page, current) {//设置页码的文本
+		                    switch (type) {
+			                    case "first":
+			                     return "首页";
+			                    case "prev":
+			                     return "上一页";
+			                    case "next":
+			                     return "下一页";
+			                    case "last":
+			                     return "末页";
+			                    case "page":
+			                     return page;
+		                    }
+		                 },		                
+		     };
 			
         	$('#example').bootstrapPaginator(options);
+        	
+        	function updateButtonStatus(){
+                 var pages = $('#example').bootstrapPaginator("getPages");
+
+                 if(pages.first)
+                 {
+                     $('#bp-example-show-first-btn').removeClass("disabled")
+                 }else
+                 {
+                     $('#bp-example-show-first-btn').addClass("disabled")
+                 }
+
+                 if(pages.prev)
+                 {
+                     $('#bp-example-show-prev-btn').removeClass("disabled")
+                 }else
+                 {
+                     $('#bp-example-show-prev-btn').addClass("disabled")
+                 }
+
+                 if(pages.next)
+                 {
+                     $('#bp-example-show-next-btn').removeClass("disabled")
+                 }else
+                 {
+                     $('#bp-example-show-next-btn').addClass("disabled")
+                 }
+
+                 if(pages.last)
+                 {
+                     $('#bp-example-show-last-btn').removeClass("disabled")
+                 }else
+                 {
+                     $('#bp-example-show-last-btn').addClass("disabled")
+                 }
+
+
+            }
+        	 
+        	$('#show-page-select').change(function (){
+
+                 var page = $(this).val();
+
+                 $('#example').bootstrapPaginator("show",page);
+
+                 updateButtonStatus();
+
+                // updateCode("show",page);
+
+             })
 		});
+		
+		 var t="${totalPages}"; 
+		  alert(t);
     </script>
   </head>
   <body>
+    
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -306,7 +384,19 @@
                
               </tbody>
             </table>     
-            <div id="example"></div>       
+            <div id="example"></div>
+            <select id="show-page-select" style="width:50px;">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+            </select>
           </div>
         </div>
       </div>

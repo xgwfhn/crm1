@@ -73,6 +73,7 @@ java.lang.ClassCastException: org.eclipse.jetty.server.Request cannot be cast to
         <property name="maxUploadSize" value="1024000000"></property>
 </bean>
 
-* 关于html中不能引用js变量  或使用el表示获取后台设置的变量  的解决      
+* 关于html中不能引用js变量  或使用el表示获取后台设置的变量  的解决     
+* jsp中的js使用el表达式   1：设置isELIgnored="false"    2 "${totalPages}" 必须使用""引号 
       
    

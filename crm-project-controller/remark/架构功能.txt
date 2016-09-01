@@ -3,3 +3,4 @@
 参考:http://blog.csdn.net/y3wegy/article/details/7821517
 	http://www.cnblogs.com/tqsummer/archive/2011/01/10/1932063.html
 支持日记按日期 到txt文件中
+springmvc中  怎么配置多个后缀文件  让后台可以访问
