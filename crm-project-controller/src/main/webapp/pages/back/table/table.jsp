@@ -1,6 +1,6 @@
 
 <!-- 
-	还需部署到云服务器中  然后用移动端访问看下样式
+	使用bootstrap 内置table样式  显示
 	bootstrap  响应式布局   随着浏览器的大小  自动跳转布局格式
 	bootstrap 可以兼容pc ipad  移动端
 	一般图标 可以用 <i 标签或<span  标签  来显示
@@ -8,6 +8,8 @@
 	ajax删除   修改     停留在当前页  (始终保持每页显示的记录数，方案是 把当前页码传递到后台)
 	ajax新增 /修改 局部刷新表格数据
 	将分页组件居中
+	*没完成 每页显示多少条的切换
+	*没完成点击列名排序  参考  http://www.imooc.com/article/8917   官网:http://www.bootcdn.cn/bootstrap-table/
 	
 	css设置
 	设置 表格行间隔之间  斑马条纹样式 table-striped
@@ -29,7 +31,7 @@
 		
 	bootstrap表格插件:
 	可编辑表格插件:https://github.com/mindmup/editable-table(css和js都是远程连接的不可访问   需要下载到本地)
-	https://www.datatables.net/blog/2012-02-01
+	https://www.datatables.net/blog/2012-02-01(不错)  http://datatables.club/ (对应中文网)
 	datagrid:http://www.pontikis.net/labs/bs_grid/
 	
 	http://my.oschina.net/shunshun/blog/204587

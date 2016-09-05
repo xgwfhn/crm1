@@ -48,6 +48,13 @@ public class DemoController {
 		//request.setAttribute("aa", 22);
 		return "table/table"; 
 	}
+	
+	@RequestMapping(value = "/table1", method = RequestMethod.GET)
+	public String table1(HttpServletRequest request, Model model) {
+		logger.info("---------------table1");
+		//request.setAttribute("aa", 22);
+		return "table/table1"; 
+	}
 
 	@RequestMapping(value = "/getCurrentPageData", method = RequestMethod.POST)
 	@ResponseBody
@@ -70,5 +77,31 @@ public class DemoController {
 		return map; 
 	}
 	
+	
+	/**页码加载时获取 
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/getCurrentPageData1", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> getCurrentPageData1(HttpServletRequest request, Model model) {
+		logger.info("---------------getCurrentPageData1");
+		logger.info("---------------currentPage1:"+request.getParameter("page"));
+		List<Product> list=new ArrayList<Product>();
+		for(int i=0;i<10;i++){
+			Product product=new Product();
+			product.setItemid(i+"");
+			product.setListprice(10.0F);
+			product.setProductname(i+"_手机"+request.getParameter("page"));
+			product.setStatus("1");
+			product.setUnitcost("部");
+			list.add(product);
+		}
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("rows", list);
+		map.put("total", 10);
+		return map; 
+	}
 	
 } 
