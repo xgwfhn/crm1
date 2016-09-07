@@ -8,13 +8,14 @@
 	bootstrap 可以兼容pc ipad  移动端
 	一般图标 可以用 <i 标签或<span  标签  来显示
 	提供分页功能
+	datatables支持前端分页和服务器分页 前端分页是把所有记录都查出来由datatables来分页   服务器分页 需要自己去控制
 	ajax删除   修改     停留在当前页  (始终保持每页显示的记录数，方案是 把当前页码传递到后台)
 	ajax新增 /修改 局部刷新表格数据
 	支持每页显示多少条的切换
 	支持当前显示 当前页  为xx条记录到xx条记录  格式显示
 	支持点击表头字段 可排序
 	支持可某个字段内容过滤记录  显示
-	
+	支持服务器分页   每次点击排序  都会去调用后台
 	css设置
 	设置 表格行间隔之间  斑马条纹样式 table-striped
 	设置表格边框 table-bordered
@@ -101,7 +102,9 @@
     	$(function(){
     		 	  $('#example').DataTable( {
     			 	"pagingType": "full_numbers",//显示首页 及尾页
-    			 	//"bProcessing": true,
+    			 	//"iDisplayLength": 20,//每页显示xx条数据,默认为10条
+    			 	//"bProcessing": true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+    			 	"bServerSide": true,//开启服务器分页  每次点击页码都回去请求 后台    			 	
     			 	"sAjaxSource": "getCurrentPageData3.do",
     			 	"aoColumns": [
 		    			 	         { "mData": 'first_name' },
@@ -109,7 +112,9 @@
 		    			 	         { "mData": 'position' },
 		    			 	         { "mData": 'office' },
 		    			 	         { "mData": 'start_date' },
-		    			 	         { "mData": 'salary' }
+		    			 	         { "mData": 'salary' },
+		    			 	         { "sDefaultContent": ''}, // sDefaultContent 如果这一列不需要填充数据用这个属性，值可以不写，起占位作用
+		    	                     { "sDefaultContent": '', "sClass": "action"},//sClass 表示给本列加class
     			 	     		 ],
 	 	     		"language": {
 	 	   	        "processing": "处理中...",
@@ -134,7 +139,28 @@
 	 	   	        "decimal": "-",
 	 	   	        "thousands": "."
 	 	   	    },
-	 	   		
+		 	   	"fnRowCallback": function(nRow, aData, iDisplayIndex) {// 当创建了行，但还未绘制到屏幕上的时候调用，通常用于改变行的class风格 
+	                if (aData.status == 1) {
+	                    $('td:eq(7)', nRow).html("<span class='text-error'>审核中</span>");
+	                } else if (aData.status == 4) {
+	                    $('td:eq(7)', nRow).html("<span class='text-error'>审核失败</span>");
+	                } else if (aData.active == 0) {
+	                    $('td:eq(7)', nRow).html("<span>隐藏</span>");
+	                } else {
+	                    $('td:eq(7)', nRow).html("<span class='text-success'>显示</span>");
+	                }
+	                $('td:eq(6)', nRow).html("<a href='' user_id='" + aData.user_id + "' class='ace_detail'>详情</a>");
+	                if (aData.status != 1 && aData.status != 4 && aData.active == 0) {
+	                    $("<a class='change_ace_status'>显示</a>").appendTo($('td:eq(6)', nRow));
+	                } else if (aData.status != 1 && aData.status != 4 && aData.active == 1) {
+	                    $("<a class='change_ace_status'>隐藏</a>").appendTo($('td:eq(6)', nRow));
+	                }
+	                return nRow;
+	            },
+	            "fnInitComplete": function(oSettings, json) { //表格初始化完成后调用 在这里和服务器分页没关系可以忽略
+                    
+                },
+                
     		   });   		 
     		   		
     	})
@@ -202,6 +228,8 @@
 			                <th>Office</th>
 			                <th>Start date</th>
 			                <th>Salary</th>
+			                <th>Salary1</th>
+			                <th>Salary2</th>
 			            </tr>
 	       			 </thead>    
    			 </table>
