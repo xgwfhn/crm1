@@ -5,4 +5,6 @@
 	
 	
 	本系统  springmvc4.0+hibernate jpa 4.2.21
-	 hibernate jpa和springmvc 整合   http://ll-feng.iteye.com/blog/1908511    
+	 hibernate jpa和springmvc 整合   参考
+	 http://ll-feng.iteye.com/blog/1908511    
+	 http://blog.csdn.net/yangwenxue_admin/article/details/52423759?locationNum=12
