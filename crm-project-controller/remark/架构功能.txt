@@ -1,3 +1,4 @@
+springmvc4+版本需要  jdk1.6以上
 支持logg4j日志输出
 支持在controller中自动将map转为json对象返回给请求页面
 参考:http://blog.csdn.net/y3wegy/article/details/7821517

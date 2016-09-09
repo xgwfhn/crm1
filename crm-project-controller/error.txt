@@ -76,4 +76,6 @@ java.lang.ClassCastException: org.eclipse.jetty.server.Request cannot be cast to
 * 关于html中不能引用js变量  或使用el表示获取后台设置的变量  的解决     
 * jsp中的js使用el表达式   1：设置isELIgnored="false"    2 "${totalPages}" 必须使用""引号 
       
+ * 启动报异常   java.lang.UnsupportedClassVersionError: org/hibernate/cfg/Configuration : Unsupported major.minor version 52.0   
+   	解决:http://sucreat.iteye.com/blog/315187  ,原因可能是  倒入的jar包中的class编译时的jdk版本比运行时的jdk版本高，建议框架整合时 框架间的版本 不要相差太大，这样jdk的版本就一致了
    

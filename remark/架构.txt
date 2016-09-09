@@ -3,3 +3,6 @@
 	时路径往前跳一级,这样就可以找到了(但是这种方式提交到github时  是否存在问题，还没测试过 )
 	提交项目时  就提交crm-project就可以了  它会自动把字项目关联起来 
 	
+	
+	本系统  springmvc4.0+hibernate jpa 4.2.21
+	 hibernate jpa和springmvc 整合   http://ll-feng.iteye.com/blog/1908511    
