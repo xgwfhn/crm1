@@ -13,7 +13,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-   
   <dependencies>
    <dependency> 
     	<groupId>com.xgw.crm</groupId>
@@ -81,4 +80,16 @@
 	</dependency>
 	<!-- 文件上传工具包 -->
   </dependencies>
+  <!-- 配置后 maven 编译时 就不会自动执行Junit的方法 -->
+  <build>
+	  <plugins>
+	    <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-surefire-plugin</artifactId>
+	        <configuration>
+	            <skip>true</skip>
+	        </configuration>
+	    </plugin>
+	</plugins>
+  </build>
 </project>

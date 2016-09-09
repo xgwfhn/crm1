@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xgw.crm.dao.UserDao;
 import com.xgw.crm.entity.user.User;
@@ -36,7 +37,9 @@ import com.xgw.crm.entity.user.User;
              解决:@ContextConfiguration(locations = "classpath:springmvc.xml")   如果locations的路径不对 则报该错误或者 UserDao userDao不能注入时
       
             全局事务测试   操作俩个不同的数据库(mysql,oracle  转账例子) 需要设置 jpa的全局事务 
-    hibernate jpa和springmvc 整合   http://ll-feng.iteye.com/blog/1908511        
+    hibernate jpa和springmvc 整合   http://ll-feng.iteye.com/blog/1908511 
+    
+              为什么什么编译的时候也会自动执行测试的方法         解决 http://www.cnblogs.com/zhoubang521/p/5200335.html
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,11 +49,11 @@ public class UserTest extends AbstractJUnit4SpringContextTests {
     private UserDao userDao;
     
     @Test
-    public void saveTest() {
+    public void saveTest() { 
     	User u=new User();
     	u.setFirst_name("333333");
     	u.setLast_name("444444444444");
-    	userDao.persist(u);
+    	userDao.persist(u);//此处要在该方法上加@Transactional上事务
     	User u1=userDao.find("1");
     	System.out.println(u1.getFirst_name());
     }
