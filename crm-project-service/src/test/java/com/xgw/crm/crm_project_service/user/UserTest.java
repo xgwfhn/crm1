@@ -40,6 +40,7 @@ import com.xgw.crm.entity.user.User;
     hibernate jpa和springmvc 整合   http://ll-feng.iteye.com/blog/1908511 
     
               为什么什么编译的时候也会自动执行测试的方法         解决 http://www.cnblogs.com/zhoubang521/p/5200335.html
+    spring data jpa http://www.cnblogs.com/xuyuanjia/p/5707681.html          
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
