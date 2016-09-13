@@ -1,5 +1,5 @@
 
-<!-- 
+<!-- http://www.zi-han.net/theme/hplus/?v=4.1
 	datatables插件显示
 	https://www.datatables.net/blog/2012-02-01(不错) 
 	https://datatables.net/(官网)    http://datatables.club/ (对应中文网)
@@ -28,8 +28,8 @@
   		</table>
 	</div>
 		
-	
-	
+	给表格第一列加上复选框  http://blog.csdn.net/switch_man/article/details/38898109
+	给表格 设置工具栏   http://blog.csdn.net/switch_man/article/details/38873087
  -->
  <!-- 国际化
  	var table = $('#example').DataTable({
@@ -93,11 +93,12 @@
      
     <!-- dataTables 所需   begin -->
     <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/jquery.dataTables.css" rel="stylesheet">
+    <link href="http://127.0.0.1:8080/crm-project-controller/style/bootstrap/bootstrapValidator.css" rel="stylesheet">
     <script src="http://127.0.0.1:8080/crm-project-controller/script/bootstrap/jquery.js"></script>
     <script src="http://127.0.0.1:8080/crm-project-controller/script/bootstrap/jquery.dataTables.js"></script>
     <!-- dataTables 所需   end -->
     <script src="http://127.0.0.1:8080/crm-project-controller/script/bootstrap/bootstrap.js"></script>
-  
+  <script src="http://127.0.0.1:8080/crm-project-controller/script/bootstrap/bootstrapValidator.js"></script> 
     <script type="text/javascript">
     	$(function(){
     		 	  $('#example').DataTable( {
@@ -118,7 +119,7 @@
     			 	     		 ],
 	 	     		"language": {
 	 	   	        "processing": "处理中...",
-	 	   	        "lengthMenu": "显示 _MENU_ 项结果",
+	 	   	        "lengthMenu": "每页_MENU_ 条记录",
 	 	   	        "zeroRecords": "没有匹配结果",
 	 	   	        "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
 	 	   	        "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
@@ -139,6 +140,8 @@
 	 	   	        "decimal": "-",
 	 	   	        "thousands": "."
 	 	   	    },
+	 	     	//"dom": '<"toolbar">frtip',
+	 	     	 "dom": '<"top"fl><"toolbar">rt<"bottom"ip><"clear">',
 		 	   	"fnRowCallback": function(nRow, aData, iDisplayIndex) {// 当创建了行，但还未绘制到屏幕上的时候调用，通常用于改变行的class风格 
 	                if (aData.status == 1) {
 	                    $('td:eq(7)', nRow).html("<span class='text-error'>审核中</span>");
@@ -162,11 +165,62 @@
                 },
                 
     		   });   		 
-    		   		
+    		 	 $("div.toolbar").html('<p style="text-align:center"><button type="button" data-toggle="modal" data-target="#addUserModal" class="btn btn-primary btn-xs">添加</button></p>');
+    		 	 //添加用户表单验证
+    		 	$('#addUserForm').bootstrapValidator({
+    		        message: 'This value is not valid',
+    		        feedbackIcons: {
+    		            valid: 'glyphicon glyphicon-ok',
+    		            invalid: 'glyphicon glyphicon-remove',
+    		            validating: 'glyphicon glyphicon-refresh'
+    		        },
+    		        submitHandler: function(validator, form, submitButton) {
+    		            $.post('../form/addUser.do', form.serialize(), function(result) {    		                
+    		                result=eval("("+result+")")
+    		            	if (result.code =='1') {
+    		            		$('#addUserModal').modal('hide');//添加成功,隐藏 添加表单
+    		                	//$("[data-toggle='tooltip']").tooltip('show')
+    		                } else {
+    		                    $('#errors').html('The account is not found').removeClass('hide');
+    		                    $('#loginForm').bootstrapValidator('disableSubmitButtons', false);
+    		                }
+    		            }, 'json');
+    		        },
+    		        fields: {
+    		            username: {
+    		                validators: {
+    		                    notEmpty: {
+    		                        message: 'The username is required'
+    		                    }
+    		                }
+    		            },
+    		            password: {
+    		                validators: {
+    		                    notEmpty: {
+    		                        message: 'The password is required'
+    		                    }
+    		                }
+    		            }
+    		        }
+    		    });
     	})
     	
     	
     </script>
+    <style type="text/css">
+    	/*.col-lg-3,col-lg-5,form-control{
+    		width:auto;
+    	}*/
+    	.control-label{
+    		width:22%;
+    	}
+    	.col-lg-5{
+    		width:auto;
+    	}
+    	.form-control{
+    		width:auto;
+    	}
+    </style>
   </head>
   <body>        
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -217,7 +271,6 @@
 				  </ul>
 				</div>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<input type="button" value="aaa" onclick="tt()"/>
 				<h2 class="sub-header">Section title</h2>
 				<table id="example" class="display" cellspacing="0" width="100%">   
 					 <thead>
@@ -236,5 +289,90 @@
 			</div>
 		  </div>
 		</div>
+		<!-- 用户添加 -->
+		<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog" style="width:880px">
+		        <div class="modal-content">
+		            <div class="modal-header" style="padding-bottom:1px;">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		                <h4 class="modal-title">添加用户</h4>
+		            </div>
+		
+		            <div class="modal-body">
+		                <!-- The form is placed inside the body of modal -->
+		                <ul class="nav nav-tabs">
+                        	<li class="active"><a href="#info-tab" data-toggle="tab">Information</a></li>
+                        	<li><a href="#address-tab" data-toggle="tab">Address</a></li>
+                        </ul>
+		                <form id="addUserForm" method="post" class="form-horizontal">
+						    <div class="tab-content">
+						        <div class="tab-pane active" id="info-tab">
+						            <div class="form-group">
+						                <label class="col-lg-3 control-label" >客户名称:</label>
+						                <div class="col-lg-5">
+						                    <input type="text" class="form-control" name="fullName"  />
+						                </div>
+						                 <label class="col-lg-3 control-label" >助记简称:</label>
+						                <div class="col-lg-5"  >
+						                    <input type="text" class="form-control" name="fullName" />
+						                </div>
+						            </div>
+						            <div class="form-group">
+						                <label class="col-lg-3 control-label">客户类型</label>
+						                <div class="col-lg-5">
+						                    <input type="text" class="form-control" name="company" />
+						                </div>
+						            </div>
+						            <div class="form-group">
+						                <label class="col-lg-3 control-label">Job title</label>
+						                <div class="col-lg-5">
+						                    <input type="text" class="form-control" name="jobTitle" />
+						                </div>
+						            </div>
+						        </div>
+						
+						        <div class="tab-pane" id="address-tab">
+						            <div class="form-group">
+						                <label class="col-lg-3 control-label">Address</label>
+						                <div class="col-lg-5">
+						                    <input type="text" class="form-control" name="address" />
+						                </div>
+						            </div>
+						            <div class="form-group">
+						                <label class="col-lg-3 control-label">City</label>
+						                <div class="col-lg-5">
+						                    <input type="text" class="form-control" name="city" />
+						                </div>
+						            </div>
+						            <div class="form-group">
+						                <label class="col-lg-3 control-label">Country</label>
+						                <div class="col-lg-5">
+						                    <select class="form-control" name="country">
+						                        <option value="">Select a country</option>
+						                        <option value="FR">France</option>
+						                        <option value="DE">Germany</option>
+						                        <option value="IT">Italy</option>
+						                        <option value="JP">Japan</option>
+						                        <option value="RU">Russian</option>
+						                        <option value="US">United State</option>
+						                        <option value="GB">United Kingdom</option>
+						                        <option value="other">Other</option>
+						                    </select>
+						                </div>
+						            </div>
+						        </div>
+						    </div>
+						
+						    <div class="form-group">
+						        <div class="col-lg-5 col-lg-offset-3">
+						            <button type="submit" class="btn btn-primary">Validate</button>
+						        </div>
+						    </div>
+						</form>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	<!-- 用户添加 -->
   </body>
 </html>

@@ -116,7 +116,7 @@ public class BaseDaoImpl<B> implements BaseDao<B> {
 	/* (non-Javadoc)
 	 * @see com.hna.wechat.dao.BaseDao#persist(B)
 	 */
-	@Transactional
+	
 	public void  persist(B obj) {
 		entityManager.persist(obj);
 	}
